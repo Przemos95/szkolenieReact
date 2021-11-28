@@ -1,1 +1,1 @@
-# szkolenieReact
+Szkolenie React
