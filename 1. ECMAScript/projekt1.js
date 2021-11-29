@@ -73,4 +73,6 @@ const zbior = new Set([23, 34, 23]);
 console.log(zbior);
 
 // Klasy -> w pliku index.js
-// Promise
+// Promise -> w pliku promise.js
+
+//immutable functions -> immutable.js
