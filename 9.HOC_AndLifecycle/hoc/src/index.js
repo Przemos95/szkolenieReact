@@ -1,12 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import InfoComponent from './components/InfoComponent';
-import ErrorBoundary from './components/ErrorBoundary';
-import WithError from './components/WithError';
-import LifecycleComponent from './components/Lifecycle/LifecycleComponent';
 import TestComponent from './components/Lifecycle/TestComponent';
 
 ReactDOM.render(
