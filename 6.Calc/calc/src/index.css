@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.calculator {
+  width: 310px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px 5px;
+  margin: auto;
+}

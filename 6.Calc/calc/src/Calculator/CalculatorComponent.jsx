@@ -6,63 +6,74 @@ class CalculatorComponent extends React.Component {
     state = {
         display: '',
         actualNumber: '',
-        numbers: [],
-        operations: []
+        firstNumber: 0,
+        operation: ''
     };
 
     handleButtonClick = (value) => {
-        // console.log(this.state.actualNumber);
-        // this.setState((state) => ({
-        //     actualNumber: state.actualNumber + 1
-        // }));
-        // console.log(this.state.actualNumber);
-
-        // return;
         switch (value) {
             case '+':
             case '-':
             case '*':
             case '/':
                 this.setState((state) => ({
-                    numbers: [...state.numbers, Number.parseInt(state.actualNumber)],
-                    operations: [...state.operations, value],
+                    firstNumber: Number.parseInt(state.actualNumber),
+                    operation: value,
                     actualNumber: '',
-                    display: state.display + value
+                    display: state.actualNumber + value
                 }));
-                // this.setState((state, props) => {
-                //     if(2 < 0) {
-                //         const finalNumber = Number.parseInt(state.actualNumber);
-                //         return {
-                //             numbers: [...state.numbers, finalNumber],
-                //             operations: [...state.operations, value],
-                //             actualNumber: '',
-                //             display: state.display + value
-                //         };
-                //     }
-                // });
-
-                return;
-            
+                break;
             case '<-':
-                // if na to czy to liczba czy operacja. Czy tam cokolwiek jest
-                this.setState((state) => ({
-                    display: state.display.slice(0, -1),
-                    actualNumber: state.display.slice(0, -1)
-                }));
-                return;
+                console.log(this.state);
+                const lastChar = this.state.display.slice(this.state.display.length - 1);
+                if (['*', '+', '-', '/'].find(x => x === lastChar)) {
+                    this.setState((state) => ({
+                        operation: '',
+                        display: state.display.slice(0, -1),
+                        actualNumber: state.firstNumber.toString(),
+                        firstNumber: 0
+                    }));
+                } else {
+                    this.setState((state) => ({
+                        display: state.display.slice(0, -1),
+                        actualNumber: state.actualNumber.slice(0, -1)
+                    }));
+                }
+                break;
             
             case '=':
-                // dopisać
-                return;
+                if (this.state.firstNumber && this.state.operation) {
+                    const secondNum = Number.parseInt(this.state.actualNumber);
+                    const result = this.calcResult(this.state.firstNumber, secondNum, this.state.operation);
+                    this.setState((state) => ({
+                        display: result.toString(),
+                        actualNumber: result.toString(),
+                        firstNumber: result,
+                        operation: ''
+                    }));
+                }
+                break;
             default:
+                if (this.state.actualNumber.length > 8)
+                    break;
+
                 this.setState((state) => ({
                     display: state.display + value,
                     actualNumber: state.actualNumber + value
                 }));
-                return;
+                break;
         }
     };
     
+    calcResult = (num1, num2, operation) => {
+        switch (operation) {
+            case '+': return num1 + num2;
+            case '-': return num1 - num2;
+            case '*': return num1 * num2;
+            case '/': return num1 / num2;
+            default: return 0;
+        }
+    };
     constructor(props) {
         super(props);
 
@@ -82,14 +93,14 @@ class CalculatorComponent extends React.Component {
 
     render() {
         return (
-            <>
+            <div className="calculator">
                 <Display 
                     text={this.state.display}
                 />
                 <PanelComponent
                     buttons={this.buttons}
                 />
-            </>
+            </div>
         );
     }
 }
