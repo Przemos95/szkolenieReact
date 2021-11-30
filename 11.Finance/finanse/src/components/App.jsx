@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
-import PurchaseHistory from "./monthPage/history/PurchaseHistory";
-import Settings from "./settings/Settings";
+import React from "react";
+import MonthPage from "./monthPage/MonthPage";
 
 class App extends React.Component {
     state = {
@@ -20,8 +19,7 @@ class App extends React.Component {
         console.log(this.state.languge);
         return (
             <LanguageContext.Provider value={this.languageContextValue}>
-                <Settings />
-                <PurchaseHistory />
+                <MonthPage />
             </LanguageContext.Provider>   
         );
     } 

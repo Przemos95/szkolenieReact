@@ -1,16 +1,16 @@
-import { useContext, useEffect, useMemo, useRef, useState, } from "react";
+import { useEffect, useMemo, useState, } from "react";
 import CategoryService from "../../../service/CategoryService";
 import HistoryService from "../../../service/HistoryService";
-import { LanguageContext } from "../../App";
 import SelectCategory from "./SelectCategory";
+import PurchaseItem from './PurchaseItem';
+import './purchaseHistory.css';
+import AddPurchase from "./AddPurchase";
 
 const PurchaseHistory = (props) => {
     const [categoryList, setCategoryList] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [categoryId, setCategoryId] = useState(null);
     const [productHistoryList, setProductHistoryList] = useState([]);
     const [selectedProductHistoryList, setSelectedProductHistoryList] = useState([]);
-    const languageContext = useContext(LanguageContext);
 
     useEffect(() => {
         console.log('Use effect');
@@ -19,10 +19,8 @@ const PurchaseHistory = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log('Filtruje produkty', categoryId);
         if (categoryId) {
             const filteredProduct = productHistoryList.filter(x => x.categoryId === categoryId);
-            console.log(productHistoryList, filteredProduct, categoryId);
             setSelectedProductHistoryList(filteredProduct);
         } else {
             setSelectedProductHistoryList(productHistoryList);
@@ -32,8 +30,7 @@ const PurchaseHistory = (props) => {
     const getCategories = () => {
         const service = new CategoryService();
         service.getAllCategories()
-            .then(res => setCategoryList(res))
-            .finally(() => setIsLoading(false));
+            .then(res => setCategoryList(res));
     }
 
     const getProductHistory = () => {
@@ -45,48 +42,29 @@ const PurchaseHistory = (props) => {
             });
     }
 
-    // const buttonRef = useRef(null);
-    // const changeButton = () => {
-    //     console.log('change button');
-    //     buttonRef.current.title = 'kliknij';
-    //     buttonRef.current.onclick = () => console.log('Hello');
-    // };
-
-    console.log('Wywołanie funckji');
     const onSelectChange = (e) => {
-        setCategoryId(e.target.value ? Number.parseInt(e.target.value) : null);
+        setCategoryId(e);
     };
 
     const convertedProducts = useMemo(() => selectedProductHistoryList.map(x => {
-        console.log('Wywołanie');
-        x.value = x.value / (languageContext.languge() === "PL" ? 1 : 4.5);
+        x.category = categoryList.find(cat => cat.id === x.categoryId)?.name;
         return x;
-    }), [selectedProductHistoryList, languageContext.languge()]);
-
-    const onChangeHandler = useCallback((isAdmin) => {
-        return (e) => { isAdmin ? console.log(e.target.value) : null; };
-    }, [isAdmin]);
+    }), [selectedProductHistoryList, categoryList]);
 
     return(
         <>
-            <SelectCategory
-                categoryList={categoryList}
-                onSelectedCategory={onSelectChange}
-                categoryId={categoryId}
-            />
-            {
-                convertedProducts.map(x => (
-                    <div key={x.id}>
-                        {x.desc} {x.categoryId} {x.value}
-                    </div>
-                ))
-            }
-            {languageContext.languge()}
-            
-            <button onClick={() => setIsLoading(true)}>Zmiana ładowania</button>
-            {/* <button ref={buttonRef} onClick={changeButton}>
-                Przycisk
-            </button> */}
+            <div className="purchaseItemMenu">
+                <SelectCategory
+                    categoryList={categoryList}
+                    onSelectedCategory={onSelectChange}
+                    categoryId={categoryId}
+                />
+                <AddPurchase
+                    categoryList={categoryList}
+                />
+            </div>
+
+            {convertedProducts.map(x => (<PurchaseItem key={x.id} item={x} />))}
         </>
     )
 }

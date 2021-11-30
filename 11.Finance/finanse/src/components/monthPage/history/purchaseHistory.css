@@ -1,0 +1,26 @@
+.item {
+    display: flex;
+    flex-direction: row;
+    background-color: #dddddd;
+    justify-content: space-between;
+    border-bottom: white solid 2px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.item > div {
+    width: 300px;
+    text-align: center;
+}
+
+.purchaseItemMenu > .selectCategory {
+    width: 50%;
+}
+
+.purchaseItemMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
