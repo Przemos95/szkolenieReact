@@ -19,7 +19,7 @@ describe('Component with state', () => {
         const productList = 
             component.root.findByProps({className:'products'});
 
-        expect(productList.count()).toEqual(4);
-        expect(productList[0]).toEqual('<div className="products">3</div>');
+        expect(productList.children.length).toEqual(4);
+        expect(productList.children[0]).toEqual('3');
     });
 });

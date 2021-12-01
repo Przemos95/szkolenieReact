@@ -20,7 +20,7 @@ class ComponentWithState extends React.Component {
         return (
             <>
                 {this.state.list.map(x => 
-                    <div className="products">
+                    <div key={x} className="products">
                         {x}
                     </div>)}
             </>
