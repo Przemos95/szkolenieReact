@@ -1,7 +1,20 @@
-module.export = {
+module.exports = {
     entry: './src/index.js',
     output: {
-        filename: 'build.js',
-        path: __dirname + 'build'
-    }
-}
+      path: __dirname + '/dist',
+      publicPath: '/',
+      filename: 'bundle.js'
+    },
+    devServer: {
+      contentBase: './dist',
+    },
+    module: {
+      rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      }
+      ]
+    },
+  };

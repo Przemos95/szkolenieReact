@@ -1,15 +1,22 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-module.export = {
+module.exports = {
     entry: './src/index.js',
     mode: 'production',
     output: {
-        filename: 'build.js',
-        path: __dirname + 'build'
+      path: __dirname + '/dist',
+      publicPath: '/',
+      filename: 'bundle.js'
     },
-    plugins: [
-        new MiniCssExtractPlugin(),
-    ]
-}
-
-process.env.NODE_ENV = "production"
+    module: {
+      rules: [
+        {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ['babel-loader']
+        },
+        {
+            test: /\.css$/i,
+            use: ["style-loader", "css-loader"],
+        }
+      ]
+    },
+  };

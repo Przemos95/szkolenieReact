@@ -24,4 +24,12 @@ Testowanie:
 
       at ProductService.getProducts (src/services/__mocks__/ProductService.js:8:17)
 
+commit testowania: https://github.com/Przemos95/szkolenieReact/commit/9fd269400c720925dd6df859fa756f8b3112cf34
+
+Build
+    komenda npm run build:prod teraz działa
+    Trzeba było zmienić konfigurację babel
+
+    Po komendzie powstaje zminifikowany plik w folderze dist/
+
 

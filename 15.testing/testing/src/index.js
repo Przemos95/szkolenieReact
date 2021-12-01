@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ComponentWithState from './components/ComponentWithState/ComponentWithState.jsx';
 
 ReactDOM.render(
-    <App />,
+    <ComponentWithState />,
   document.getElementById('root')
 );
 

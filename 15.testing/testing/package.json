@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -36,9 +37,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
     "jest-cli": "^27.4.2",
     "mini-css-extract-plugin": "^2.4.5",
     "react-test-renderer": "^17.0.2",
