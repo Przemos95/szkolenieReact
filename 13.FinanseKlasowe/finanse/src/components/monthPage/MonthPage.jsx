@@ -5,12 +5,12 @@ import React from "react";
 
 class MonthPage extends React.Component {
     render() {
-    return (
-        <div className="monthPage">
-            <PurchaseStats />
-            <PurchaseHistory />
-        </div>
-    )
+        return (
+            <div className="monthPage">
+                <PurchaseStats />
+                <PurchaseHistory />
+            </div>
+        )
     }
 }
 

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LINKS } from '../App';
+import { LINKS } from '../../App';
 
-class MainPage extends React.Component {
+interface IProps {}
+interface IState {}
+
+class MainPage extends React.Component<IProps, IState> {
     render() {
         return (
             <>

@@ -1,21 +1,25 @@
 import React from "react";
-import MonthPage from "./monthPage/MonthPage";
+import MonthPage from "./components/monthPage/MonthPage";
 import { Provider } from 'react-redux'
-import configureStore from "../reducers/configureStore";
+import configureStore from "./reducers/configureStore";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from "./mainPage/MainPage";
-import ProductListComponent from "./products/productList/ProductListComponent";
+import MainPage from "./components/mainPage/MainPage";
+
+interface LanguageContextInterface {
+    languge: () => string;
+    setLanguage: (lang: string) => void;
+}
 
 class App extends React.Component {
     state = {
         languge: 'PL'
     };
 
-    setLanguage = (lang) => {
+    setLanguage = (lang: string): void => {
         this.setState({languge: lang});
     }
     
-    languageContextValue = {
+    languageContextValue: LanguageContextInterface = {
         languge: () => this.state.languge,
         setLanguage: this.setLanguage
     }
@@ -35,15 +39,12 @@ class App extends React.Component {
                         </Routes>
                     </BrowserRouter>
                 </Provider>
-                <ProductListComponent />
             </LanguageContext.Provider>
         );
     } 
 }
 
-export const LanguageContext = React.createContext();
-
-TDD
+export const LanguageContext = React.createContext<LanguageContextInterface | null>(null);
 
 export default App;
 

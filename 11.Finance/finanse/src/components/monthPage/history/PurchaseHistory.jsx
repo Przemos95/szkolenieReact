@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, } from "react";
+import { useEffect, useMemo, useState, useDispatch, useSelector } from "react";
 import CategoryService from "../../../service/CategoryService";
 import HistoryService from "../../../service/HistoryService";
 import SelectCategory from "./SelectCategory";
@@ -7,10 +7,15 @@ import './purchaseHistory.css';
 import AddPurchase from "./AddPurchase";
 
 const PurchaseHistory = (props) => {
-    const [categoryList, setCategoryList] = useState([]);
+    // const [categoryList, setCategoryList] = useState([]);
     const [categoryId, setCategoryId] = useState(null);
-    const [productHistoryList, setProductHistoryList] = useState([]);
+    // const [productHistoryList, setProductHistoryList] = useState([]);
     const [selectedProductHistoryList, setSelectedProductHistoryList] = useState([]);
+
+    // const categoryList = useSelect
+    const dispatch = useDispatch();
+    const categoryList = useSelector((state) => state.categoryReducer.categoryList);
+    const productHistoryList = useSelector((state) => state.historyReducer.historyList);
 
     useEffect(() => {
         console.log('Use effect');
@@ -30,7 +35,10 @@ const PurchaseHistory = (props) => {
     const getCategories = () => {
         const service = new CategoryService();
         service.getAllCategories()
-            .then(res => setCategoryList(res));
+            .then(res => dispatch({
+                type: 'GET_CATEGORY_LIST',
+                payload: res
+            }));
     }
 
     const getProductHistory = () => {
