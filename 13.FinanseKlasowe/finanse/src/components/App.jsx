@@ -1,5 +1,7 @@
 import React from "react";
 import MonthPage from "./monthPage/MonthPage";
+import { Provider } from 'react-redux'
+import configureStore from "../reducers/configureStore";
 
 class App extends React.Component {
     state = {
@@ -15,11 +17,15 @@ class App extends React.Component {
         setLanguage: this.setLanguage
     }
 
+    store = configureStore();
+
     render() {
         console.log(this.state.languge);
         return (
             <LanguageContext.Provider value={this.languageContextValue}>
-                <MonthPage />
+                <Provider store={this.store}>
+                    <MonthPage />
+                </Provider>
             </LanguageContext.Provider>   
         );
     } 

@@ -16,6 +16,11 @@ export function movieReducer(state = initialState, action) {
                 ...state,
                 movies: state.movies.filter(x => x.id !== x.payload.movieId)
             }
+        case 'GET_MOVIES':
+            return {
+                ...state,
+                movies: action.payload
+            }
         default:
             return state;
     }

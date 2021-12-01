@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AddPurchaseForm from "./AddPurchaseForm";
 import Button from '@mui/material/Button';
 
@@ -20,8 +20,6 @@ class AddPurchase extends React.Component {
             <AddPurchaseForm
                 open={this.state.open}
                 handleClose={() => this.setState({open: false})}
-                categoryList={this.props.categoryList}
-                handleSave={(item) => { this.setState({open: false}); }}
             />
         </div>
     )

@@ -1,13 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { AddMovie } from "../actions/movieActions";
+import { AddMovie, GetMovies } from "../actions/movieActions";
 import { AddMovie as AddMovieToDirector } from '../actions/directorActions';
 
 class MovieComponent extends React.Component {
     onChange = () => {
-        this.props.addMovieLocal(
-            { id: 2, title: 'Harry Potter', stars: null}
-        )
+        // this.props.addMovieLocal(
+        //     { id: 2, title: 'Harry Potter', stars: null}
+        // )
+        this.props.getMovies();
     }
 
     removeMovie = () => {
@@ -34,7 +35,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addMovieLocal: (movie) => dispatch(AddMovie(movie)),
-        addMovieToDirector: (directorId, movie) => dispatch(AddMovieToDirector(directorId, movie))
+        addMovieToDirector: (directorId, movie) => dispatch(AddMovieToDirector(directorId, movie)),
+        getMovies: () => dispatch(GetMovies())
     }
 }
 

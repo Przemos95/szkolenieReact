@@ -1,3 +1,5 @@
+import MovieService from "../services/MovieService";
+
 export const AddMovie = (movie) => {
     return {
         type: 'ADD_MOVIE',
@@ -14,20 +16,19 @@ export const RemoveMovie = (id) => {
     }
 }
 
-export const SetMovies = (movies) => {
+export const GetMoviesResult = (movies) => {
     return {
-        type: 'SET_MOVIES',
+        type: 'GET_MOVIES',
         payload: movies
     }
 }
 
-export const thunkAction = () => {
-    return (dispatch) => {
-        new Promise((resolve) => {
-            setTimeout(() => resolve(this.categoryList), 1000);
-        })
-            .then(res => {
-                dispatch(SetMovies(res))
-            })
+export const GetMovies = () => {
+    return (dispatch, getState, services) => {
+        console.log('Wywołanie middleware');
+        services
+            .movieService
+            .getAllMovies()
+            .then(x => dispatch(GetMoviesResult(x)));
     }
 } 

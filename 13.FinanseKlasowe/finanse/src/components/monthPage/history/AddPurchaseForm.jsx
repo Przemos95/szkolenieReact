@@ -6,6 +6,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SelectCategory from "./SelectCategory";
+import { AddPurchase } from "../../../actions/historyAction";
+import { connect } from "react-redux";
 
 class AddPurchaseForm extends React.Component {
     state = {
@@ -19,13 +21,14 @@ class AddPurchaseForm extends React.Component {
         if (!this.state.description || !this.state.categoryId || !this.state.value) {
             this.setState({errorMessage: 'Uzupełnij dane'});
         } else {
-            this.props.handleSave({id: new Date().getDate(), desc: this.state.description, categoryId: this.state.categoryId, value: this.state.value});
+            this.props.addProduct({id: new Date().getDate(), desc: this.state.description, categoryId: this.state.categoryId, value: this.state.value});
             this.setState({
               description: '',
               categoryId: null,
               value: 0,
               errorMessage: ''
             });
+            this.props.handleClose();
         }
     };
     
@@ -70,4 +73,16 @@ class AddPurchaseForm extends React.Component {
     }
   }
 
-  export default AddPurchaseForm;
+  function mapStateToProps(state) {
+    return {
+      categoryList: state.categoryReducer.categoryList,
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      addProduct: (product) => dispatch(AddPurchase(product))
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(AddPurchaseForm);

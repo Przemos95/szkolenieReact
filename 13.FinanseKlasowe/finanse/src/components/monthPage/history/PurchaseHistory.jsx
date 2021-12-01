@@ -1,47 +1,31 @@
 import React from "react";
-import CategoryService from "../../../service/CategoryService";
-import HistoryService from "../../../service/HistoryService";
 import SelectCategory from "./SelectCategory";
 import PurchaseItem from './PurchaseItem';
 import './purchaseHistory.css';
 import AddPurchase from "./AddPurchase";
+import { GetCategoryList } from "../../../actions/categoryActions";
+import { GetHistoryList } from "../../../actions/historyAction";
+import { connect } from "react-redux";
 
 class PurchaseHistory extends React.Component {
     state = {
-        categoryList: [],
         categoryId: null,
-        productHistoryList: [],
         selectedProductHistoryList: []
     };
 
     componentDidMount() {
-        this.getCategories();
-        this.getProductHistory();
+        this.props.getCategoryList();
+        this.props.getProductList();
     }
     
     updateSelectedCategory = (id) => {
         if (id) {
-            const filteredProduct = this.state.productHistoryList.filter(x => x.categoryId === id);
+            const filteredProduct = this.props.productHistoryList.filter(x => x.categoryId === id);
             this.setState({selectedProductHistoryList: filteredProduct});
         } else {
-            this.setState({selectedProductHistoryList: this.state.productHistoryList});
+            this.setState({selectedProductHistoryList: this.props.productHistoryList});
         }
     };
-    
-    getCategories = () => {
-        const service = new CategoryService();
-        service.getAllCategories()
-            .then(res => this.setState({categoryList: res}));
-    }
-
-    getProductHistory = () => {
-        const service = new HistoryService();
-        service.getAllProducts()
-            .then(res => this.setState({
-                productHistoryList: res,
-                selectedProductHistoryList: res
-            }));
-    }
 
     onSelectChange = (id) => {
         this.setState({
@@ -50,29 +34,42 @@ class PurchaseHistory extends React.Component {
         this.updateSelectedCategory(id);
     };
 
-    convertedProducts = this.state.selectedProductHistoryList.map(x => {
-        x.category = this.state.categoryList.find(cat => cat.id === x.categoryId)?.name;
+    convertedProducts = () => this.state.selectedProductHistoryList.map(x => {
+        x.category = this.props.categoryList.find(cat => cat.id === x.categoryId)?.name;
         return x;
     });
 
     render() {
+        console.log(this.props.categoryList);
     return(
         <>
             <div className="purchaseItemMenu">
                 <SelectCategory
-                    categoryList={this.state.categoryList}
+                    categoryList={this.props.categoryList}
                     onSelectedCategory={this.onSelectChange}
                     categoryId={this.state.categoryId}
                 />
-                <AddPurchase
-                    categoryList={this.state.categoryList}
-                />
+                <AddPurchase />
             </div>
 
-            {this.convertedProducts.map(x => (<PurchaseItem key={x.id} item={x} />))}
+            {this.convertedProducts().map(x => (<PurchaseItem key={x.id} item={x} />))}
         </>
     )
     }
 }
 
-export default PurchaseHistory;
+function mapStateToProps(state) {
+    return {
+        categoryList: state.categoryReducer.categoryList,
+        productHistoryList: state.historyReducer.historyList,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCategoryList: () => dispatch(GetCategoryList()),
+        getProductList: () => dispatch(GetHistoryList())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PurchaseHistory);
